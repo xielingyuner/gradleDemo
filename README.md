@@ -1,2 +1,7 @@
 # gradleDemo
-gradle demo practice
+
+init a gradle project
+
+```groovy
+gradle init
+```
