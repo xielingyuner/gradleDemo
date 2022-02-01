@@ -12,7 +12,7 @@ version = '0.0.1-SNAPSHOT'
 //  对应的JVM版本
 sourceCompatibility = '11'
 
-// 使用maven做为jar包的信赖管理，通过mave仓库下载项目所需的信赖包
+// 使用maven做为jar包的信赖管理，通过maven仓库下载项目所需的信赖包
 apply plugin: 'maven'
 // 指定项目为java项目，项目编译(在项目提示符下执行：gradle build)时生成项目的jar包。
 apply plugin: 'java'
@@ -25,8 +25,15 @@ apply plugin: 'eclipse-wtp'
 // 加入jetty的支持，代码修改后直接执行命令gradle jettyRun即可运行web项目。
 apply plugin: 'jetty'
 
-
+//  指定本地仓 远程仓
 repositories {
+    //    指定本地仓, 引用本地仓库
+    mavenLocal()
+    //    使用阿里巴巴的maven仓库
+    maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
+    //    使用开源中国的maven仓库
+    maven { url 'http://maven.oschina.net/content/groups/public/' }
+    //    告诉Gradle从Maven中央仓库获取工具库的内容 / https://repo.maven.apache.org/maven2/
     mavenCentral()
 }
 
@@ -63,7 +70,6 @@ dependencies {
     testAnnotationProcessor 'org.springframework.boot:spring-boot-starter'
     jasper 'org.springframework.boot:spring-boot-starter'
 }
-
 
 tasks.named('test') {
     useJUnitPlatform()
