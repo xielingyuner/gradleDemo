@@ -1,0 +1,24 @@
+清除build文件夹
+./gradlew clean
+
+检查依赖并编译打包
+./gradlew build
+
+编译并打Debug包
+./gradlew assembleDebug
+
+编译并打Release包
+./gradlew assembleRelease
+
+获取gradle版本号
+./gradlew -v
+
+查看所有任务
+./gradlew tasks 或 gradle tasks
+
+查看所有工程
+gradle projects
+
+查看所有属性
+gradle properties
+

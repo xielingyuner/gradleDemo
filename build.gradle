@@ -37,9 +37,31 @@ repositories {
     mavenCentral()
 }
 
+// 该配置会被应用到所有的子工程。
+allprojects {
+    repositories {
+        mavenLocal()
+    }
+}
+
 dependencies {
 
 //  compile
+    // 导入本地的依赖包
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    // 从maven仓库导入依赖包
+    compile('org.apache.httpcomponents:httpclient:4.4')
+    compile 'org.apache.httpcomponents:httpclient:4.4'
+    compile group: 'com.jfinal', name: 'jfinal', version: '3.0'
+
+    // 也可以集合到一起写
+    compile(
+            "dir: 'libs', include: ['*.jar']",
+            "org.apache.httpcomponents:httpclient:4.4",
+            "org.apache.commons:commons-lang3:3.3.2"
+    )
+
+
 //  compileConly
 //  runtimeOnly
 //  implementation
@@ -70,6 +92,55 @@ dependencies {
     testAnnotationProcessor 'org.springframework.boot:spring-boot-starter'
     jasper 'org.springframework.boot:spring-boot-starter'
 }
+
+//循环遍历
+task foreach << {
+    10.times { println "the times is $it." }
+}
+
+依赖其他任务
+task intro(dependsOn: hello) << {
+    println "I'm Gradle---intro"
+}
+
+//动态任务
+4.times { counter ->
+    task "task$counter" << {
+        println "I'm task number $counter"
+    }
+}
+// gradle task[0-4]
+// 循环四次，生成4个task， 任务名分别为task0,task1,task2,task3
+
+// 使用外部任务的属性
+task myTask {
+    ext.myProperty = "myValue"
+}
+task extraProps << {
+    println myTask.myProperty
+}
+
+//  使用ant任务
+task loadfile1 << {
+    def files = file('../builds').listFiles().sort()
+    files.each { File file ->
+        if (file.isFile()) {
+            ant.loadfile(srcFile: file, property: file.name)
+            println " *** $file.name ***"
+            println "${ant.properties[file.name]}"
+        }
+    }
+}
+
+//可以使用build.gradle文件中的以下代码段对测试方法进行分组。
+test {
+    useJUnit {
+        includeCategories 'org.gradle.junit.CategoryA'
+        excludeCategories 'org.gradle.junit.CategoryB'
+    }
+}
+
+
 
 tasks.named('test') {
     useJUnitPlatform()
