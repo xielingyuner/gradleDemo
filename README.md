@@ -2,6 +2,8 @@
 
 ```groovy
 // 项目依赖插件
+//  plugins 是应用插件的新方法，它们必须在Gradle插件库中可用。apply 是一种较老的、但更灵活的向构建中添加插件的方法。
+// 新的plugins方法不能在多项目配置中工作(子项目，所有项目)，但可以在每个子项目的构建配置中工作。
 plugins {
 id 'org.springframework.boot' version '2.6.3'
 id 'io.spring.dependency-management' version '1.0.11.RELEASE'
